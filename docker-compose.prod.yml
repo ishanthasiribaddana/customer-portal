@@ -1,0 +1,25 @@
+# =============================================================================
+# CUSTOMER PORTAL - Production Overrides
+# =============================================================================
+# Usage: docker-compose -f docker-compose.base.yml -f docker-compose.prod.yml up -d
+#
+# Auth:   SSOService on host.docker.internal:8085
+# APIs:   FinanceApp on host.docker.internal:8086 (student lookup)
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Frontend - Production Nginx (static files + reverse proxy)
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: customer-portal
+    ports:
+      - "127.0.0.1:8092:80"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

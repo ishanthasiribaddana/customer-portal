@@ -1,0 +1,27 @@
+# =============================================================================
+# CUSTOMER PORTAL - Base Configuration
+# =============================================================================
+# Shared service definitions for local and production environments.
+#
+# Local Dev:  docker-compose -f docker-compose.base.yml -f docker-compose.local.yml up -d
+# Production: docker-compose -f docker-compose.base.yml -f docker-compose.prod.yml up -d
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # FRONTEND (React + Vite / Nginx)
+  # Auth via SSOService (:8085), Student APIs via FinanceApp (:8086)
+  # ---------------------------------------------------------------------------
+  frontend:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - temco-network
+
+networks:
+  temco-network:
+    external: true
