@@ -44,7 +44,7 @@ jobs:
         run: |
           ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "mkdir -p /tmp/my-frontend-deploy"
           scp -r frontend/dist/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/tmp/my-frontend-deploy/
-          scp nginx.conf ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/tmp/my-frontend-nginx.conf
+          scp nginx.prod.conf ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/tmp/my-frontend-nginx.conf
 
       - name: Update container and reload
         run: |
